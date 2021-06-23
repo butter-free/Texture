@@ -10,11 +10,15 @@ import UIKit
 import YogaKit
 
 class ViewController: UIViewController {
-	private let paddingHorizontal: YGValue = 8.0
-	private let padding: YGValue = 8.0
+	
+	enum Padding {
+		static let `default`: YGValue = 8.0
+		static let horizontal: YGValue = 8.0
+	}
+	
 	private let backgroundColor: UIColor = .black
 	
-	fileprivate var shows = [Show]()
+	fileprivate var shows: [Show] = []
 	
 	fileprivate let contentView: UIScrollView = UIScrollView(frame: .zero)
 	fileprivate let showCellIdentifier = "ShowCell"
@@ -35,7 +39,7 @@ class ViewController: UIViewController {
 	
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
-		// Calculate and set the content size for the scroll view
+		
 		var contentViewRect: CGRect = .zero
 		for view in contentView.subviews {
 			contentViewRect = contentViewRect.union(view.frame)
@@ -68,17 +72,33 @@ class ViewController: UIViewController {
 		
 		episodeImageView.configureLayout {
 			$0.isEnabled = true
-			$0.flexGrow = 1.0
 			$0.aspectRatio = imageWidth / imageHeight
 		}
 		
 		contentView.addSubview(episodeImageView)
 		
+		let summaryView = UIView(frame: .zero)
+		summaryView.configureLayout { (layout) in
+			layout.isEnabled = true
+			layout.flexDirection = .row
+			layout.padding = Padding.default
+		}
+		
+		let summaryPopularityLabel = UILabel(frame: .zero)
+		summaryPopularityLabel.text = String(repeating: "★", count: showPopularity)
+		summaryPopularityLabel.textColor = .red
+		summaryPopularityLabel.configureLayout { (layout) in
+			layout.isEnabled = true
+			layout.flexGrow = 1.0
+		}
+		summaryView.addSubview(summaryPopularityLabel)
+
+		contentView.addSubview(summaryView)
+		
 		view.addSubview(contentView)
 		
 		contentView.yoga.applyLayout(preservingOrigin: false)
 	}
-
 }
 
 // MARK: - Private methods
@@ -129,5 +149,3 @@ extension ViewController: UITableViewDelegate {
 		print("Selected row \(indexPath.row)")
 	}
 }
-
-
