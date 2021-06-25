@@ -77,6 +77,14 @@ class ViewController: UIViewController {
 		
 		contentView.addSubview(episodeImageView)
 		
+		let summaryInfoView = UIView(frame: .zero)
+		summaryInfoView.configureLayout { (layout) in
+			layout.isEnabled = true
+			layout.flexGrow = 1.0
+			layout.flexDirection = .row
+			layout.justifyContent = .spaceBetween
+		}
+		
 		let summaryView = UIView(frame: .zero)
 		summaryView.configureLayout { (layout) in
 			layout.isEnabled = true
@@ -92,8 +100,122 @@ class ViewController: UIViewController {
 			layout.flexGrow = 1.0
 		}
 		summaryView.addSubview(summaryPopularityLabel)
-
+		
+		for text in [showYear, showRating, showLength] {
+			let summaryInfoLabel = UILabel(frame: .zero)
+			summaryInfoLabel.text = text
+			summaryInfoLabel.font = UIFont.systemFont(ofSize: 14.0)
+			summaryInfoLabel.textColor = .lightGray
+			summaryInfoLabel.configureLayout { (layout) in
+				layout.isEnabled = true
+			}
+			summaryInfoView.addSubview(summaryInfoLabel)
+		}
+		summaryView.addSubview(summaryInfoView)
+		
+		let summaryInfoSpacerView = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 1))
+		summaryInfoSpacerView.configureLayout { (layout) in
+			layout.isEnabled = true
+			layout.flexGrow = 3.0
+		}
+		summaryView.addSubview(summaryInfoSpacerView)
 		contentView.addSubview(summaryView)
+		
+		let titleView = UIView(frame: .zero)
+		titleView.configureLayout { (layout) in
+			layout.isEnabled = true
+			layout.flexDirection = .row
+			layout.padding = Padding.default
+		}
+
+		let titleEpisodeLabel =
+			showLabelFor(text: selectedShowSeriesLabel,
+									 font: UIFont.boldSystemFont(ofSize: 16.0))
+		titleView.addSubview(titleEpisodeLabel)
+
+		let titleFullLabel = UILabel(frame: .zero)
+		titleFullLabel.text = show.title
+		titleFullLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
+		titleFullLabel.textColor = .lightGray
+		titleFullLabel.configureLayout { (layout) in
+			layout.isEnabled = true
+			layout.marginLeft = 20.0
+			layout.marginBottom = 5.0
+		}
+		titleView.addSubview(titleFullLabel)
+		contentView.addSubview(titleView)
+
+		let descriptionView = UIView(frame: .zero)
+		descriptionView.configureLayout { (layout) in
+			layout.isEnabled = true
+			layout.paddingHorizontal = Padding.horizontal
+		}
+
+		let descriptionLabel = UILabel(frame: .zero)
+		descriptionLabel.font = UIFont.systemFont(ofSize: 14.0)
+		descriptionLabel.numberOfLines = 3
+		descriptionLabel.textColor = .lightGray
+		descriptionLabel.text = show.detail
+		descriptionLabel.configureLayout { (layout) in
+			layout.isEnabled = true
+			layout.marginBottom = 5.0
+		}
+		descriptionView.addSubview(descriptionLabel)
+		
+		let castText = "Cast: \(showCast)";
+		let castLabel = showLabelFor(text: castText,
+																 font: UIFont.boldSystemFont(ofSize: 14.0))
+		descriptionView.addSubview(castLabel)
+
+		let creatorText = "Creators: \(showCreators)"
+		let creatorLabel = showLabelFor(text: creatorText,
+																		font: UIFont.boldSystemFont(ofSize: 14.0))
+		descriptionView.addSubview(creatorLabel)
+
+		contentView.addSubview(descriptionView)
+
+		let actionsView = UIView(frame: .zero)
+		actionsView.configureLayout { (layout) in
+			layout.isEnabled = true
+			layout.flexDirection = .row
+			layout.padding = Padding.default
+		}
+
+		let addActionView =
+			showActionViewFor(imageName: "add", text: "My List")
+		actionsView.addSubview(addActionView)
+
+		let shareActionView =
+			showActionViewFor(imageName: "share", text: "Share")
+		actionsView.addSubview(shareActionView)
+
+		contentView.addSubview(actionsView)
+		
+		let tabsView = UIView(frame: .zero)
+		tabsView.configureLayout { (layout) in
+			layout.isEnabled = true
+			layout.flexDirection = .row
+			layout.padding = Padding.default
+		}
+
+		let episodesTabView = showTabBarFor(text: "EPISODES", selected: true)
+		tabsView.addSubview(episodesTabView)
+		let moreTabView = showTabBarFor(text: "MORE LIKE THIS", selected: false)
+		tabsView.addSubview(moreTabView)
+
+		contentView.addSubview(tabsView)
+
+		let showsTableView = UITableView()
+		showsTableView.delegate = self
+		showsTableView.dataSource = self
+		showsTableView.backgroundColor = backgroundColor
+		showsTableView.register(ShowTableViewCell.self,
+														forCellReuseIdentifier: showCellIdentifier)
+		showsTableView.configureLayout{ (layout) in
+			layout.isEnabled = true
+			layout.flexGrow = 1.0
+		}
+		contentView.addSubview(showsTableView)
 		
 		view.addSubview(contentView)
 		
@@ -119,7 +241,56 @@ private extension ViewController {
 	}
 	
 	// TODO: Add private methods below
-	
+	func showActionViewFor(imageName: String, text: String) -> UIView {
+		let actionView = UIView(frame: .zero)
+		actionView.configureLayout { (layout) in
+			layout.isEnabled = true
+			layout.alignItems = .center
+			layout.marginRight = 20.0
+		}
+		let actionButton = UIButton(type: .custom)
+		actionButton.setImage(UIImage(named: imageName), for: .normal)
+		actionButton.configureLayout{ (layout) in
+			layout.isEnabled = true
+			layout.padding = 10.0
+		}
+		actionView.addSubview(actionButton)
+		let actionLabel = showLabelFor(text: text)
+		actionView.addSubview(actionLabel)
+		return actionView
+	}
+
+	func showTabBarFor(text: String, selected: Bool) -> UIView {
+		// 1
+		let tabView = UIView(frame: .zero)
+		tabView.configureLayout { (layout) in
+			layout.isEnabled = true
+			layout.alignItems = .center
+			layout.marginRight = 20.0
+		}
+		// 2
+		let tabLabelFont = selected ?
+			UIFont.boldSystemFont(ofSize: 14.0) :
+			UIFont.systemFont(ofSize: 14.0)
+		let fontSize: CGSize = text.size(withAttributes: [NSAttributedString.Key.font: tabLabelFont])
+		// 3
+		let tabSelectionView =
+			UIView(frame: CGRect(x: 0, y: 0, width: fontSize.width, height: 3))
+		if selected {
+			tabSelectionView.backgroundColor = .red
+		}
+		tabSelectionView.configureLayout { (layout) in
+			layout.isEnabled = true
+			layout.marginBottom = 5.0
+		}
+		tabView.addSubview(tabSelectionView)
+		// 4
+		let tabLabel = showLabelFor(text: text, font: tabLabelFont)
+		tabView.addSubview(tabLabel)
+
+		return tabView
+	}
+
 }
 
 // MARK: - UITableViewDataSource methods
