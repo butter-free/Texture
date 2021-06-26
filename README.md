@@ -40,10 +40,37 @@ Texture를 사용함으로 기대되는 효과
 
 > 참고 및 예제 제공 사이트로 학습 진행
 
+Texture에서는 Flex Box라는 것으로 레이아웃을 구성한다고 한다.
+  
+Flex Box를 학습하기위해 Raywendarich의 Yoga tutorial 예제 코드와 Yoga playground, Texture Guide 사이트 내용으로 먼저 학습을 진행하기로 한다.
+  
+> 제공된 Raywendarich tutorial 레이아웃이 별로 맘에들지 않았고, tabBar에 selected 프로퍼티에 따라서 빨간색 바가 적용되어야 하는데 적용되지 않는 버그가 있다 모두 수정해보자.
+
+<details>
+<summary>Flex Box</summary>
+<div>
+
+### Flex Box
+
+* flex-direction
+
+* justify-content
+
+* align-items
+
+* flex-glow
+
+* flex-shrink
+
+</div>
+</details>
+
 <details>
 <summary>사이트 모음</summary>
 <div>
   1. https://texture-kr.gitbook.io/wiki/ <br>
-  2. https://www.raywenderlich.com/530-yoga-tutorial-using-a-cross-platform-layout-engine
+  2. https://www.raywenderlich.com/530-yoga-tutorial-using-a-cross-platform-layout-engine <br>
+  3. https://yogalayout.com/playground <br>
+  4. https://developer.mozilla.org/ko/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox
 </div>
 </details>
