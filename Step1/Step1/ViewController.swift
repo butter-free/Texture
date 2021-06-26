@@ -293,31 +293,27 @@ private extension ViewController {
 
 	func showTabBarFor(text: String, isSelected: Bool) -> UIView {
 		let tabView = UIView(frame: .zero)
-		tabView.configureLayout { (layout) in
-			layout.isEnabled = true
-			layout.alignItems = .center
-			layout.marginRight = 20.0
+		tabView.configureLayout {
+			$0.isEnabled = true
+			$0.alignItems = .center
+			$0.marginLeft = Margin.left
 		}
-		// 2
-		let tabLabelFont = selected ?
-			UIFont.boldSystemFont(ofSize: 14.0) :
-			UIFont.systemFont(ofSize: 14.0)
-		let fontSize: CGSize = text.size(withAttributes: [NSAttributedString.Key.font: tabLabelFont])
-		// 3
-		let tabSelectionView =
-			UIView(frame: CGRect(x: 0, y: 0, width: fontSize.width, height: 3))
-		if selected {
-			tabSelectionView.backgroundColor = .red
-		}
-		tabSelectionView.configureLayout { (layout) in
-			layout.isEnabled = true
-			layout.marginBottom = 5.0
-		}
-		tabView.addSubview(tabSelectionView)
-		// 4
+		
+		let tabLabelFont: UIFont = isSelected ? .boldSystemFont(ofSize: 14) : .systemFont(ofSize: 14)
+		let textSize: CGSize = text.size(withAttributes: [NSAttributedString.Key.font: tabLabelFont])
+		
 		let tabLabel = showLabelFor(text: text, font: tabLabelFont)
 		tabView.addSubview(tabLabel)
-
+		
+		let tabSelectionView: UIView = .init(frame: .zero)
+		tabSelectionView.backgroundColor = isSelected ? .red : .clear
+		tabSelectionView.configureLayout {
+			$0.isEnabled = true
+			$0.marginBottom = Margin.bottom
+			$0.height = 3
+			$0.width = YGValue(textSize.width)
+		}
+		tabView.addSubview(tabSelectionView)
 		return tabView
 	}
 }
