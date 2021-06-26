@@ -157,10 +157,10 @@ class ViewController: UIViewController {
 		titleFullLabel.text = show.title
 		titleFullLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
 		titleFullLabel.textColor = .lightGray
-		titleFullLabel.configureLayout { (layout) in
-			layout.isEnabled = true
-			layout.marginLeft = Margin.titleLeft
-			layout.marginBottom = Margin.bottom
+		titleFullLabel.configureLayout {
+			$0.isEnabled = true
+			$0.marginLeft = Margin.titleLeft
+			$0.marginBottom = Margin.bottom
 		}
 		titleView.addSubview(titleFullLabel)
 		contentView.addSubview(titleView)
@@ -171,6 +171,7 @@ class ViewController: UIViewController {
 			$0.isEnabled = true
 			$0.paddingHorizontal = Padding.horizontal
 			$0.marginLeft = Margin.left
+			$0.marginRight = Margin.left
 		}
 
 		let descriptionLabel = UILabel(frame: .zero)
@@ -219,11 +220,11 @@ class ViewController: UIViewController {
 		
 		// MARK: - TabsView
 		let tabsView = UIView(frame: .zero)
-		tabsView.configureLayout { (layout) in
-			layout.isEnabled = true
-			layout.flexDirection = .row
-			layout.alignContent = .spaceAround
-			layout.padding = Padding.default
+		tabsView.configureLayout {
+			$0.isEnabled = true
+			$0.flexDirection = .row
+			$0.alignContent = .spaceAround
+			$0.padding = Padding.default
 		}
 
 		let episodesTabView = showTabBarFor(text: "EPISODES", isSelected: true)
@@ -242,9 +243,9 @@ class ViewController: UIViewController {
 			ShowTableViewCell.self,
 			forCellReuseIdentifier: showCellIdentifier
 		)
-		showsTableView.configureLayout{ (layout) in
-			layout.isEnabled = true
-			layout.flexGrow = 1.0
+		showsTableView.configureLayout {
+			$0.isEnabled = true
+			$0.flexGrow = 1.0
 		}
 		contentView.addSubview(showsTableView)
 		
@@ -264,6 +265,7 @@ private extension ViewController {
 		label.font = font
 		label.textColor = .lightGray
 		label.text = text
+		label.numberOfLines = 0
 		label.configureLayout {
 			$0.isEnabled = true
 			$0.marginBottom = Margin.bottom
@@ -274,16 +276,16 @@ private extension ViewController {
 	// TODO: Add private methods below
 	func showActionViewFor(imageName: String, text: String) -> UIView {
 		let actionView = UIView(frame: .zero)
-		actionView.configureLayout { (layout) in
-			layout.isEnabled = true
-			layout.alignItems = .center
-			layout.marginRight = Margin.right
+		actionView.configureLayout {
+			$0.isEnabled = true
+			$0.alignItems = .center
+			$0.marginRight = Margin.right
 		}
 		let actionButton = UIButton(type: .custom)
 		actionButton.setImage(UIImage(named: imageName), for: .normal)
-		actionButton.configureLayout{ (layout) in
-			layout.isEnabled = true
-			layout.padding = 10.0
+		actionButton.configureLayout {
+			$0.isEnabled = true
+			$0.padding = 10.0
 		}
 		actionView.addSubview(actionButton)
 		let actionLabel = showLabelFor(text: text)
@@ -326,8 +328,10 @@ extension ViewController: UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell: ShowTableViewCell =
-			tableView.dequeueReusableCell(withIdentifier: showCellIdentifier, for: indexPath) as! ShowTableViewCell
+		let cell: ShowTableViewCell = tableView.dequeueReusableCell(
+			withIdentifier: showCellIdentifier,
+			for: indexPath
+		) as! ShowTableViewCell
 		cell.show = shows[indexPath.row]
 		return cell
 	}
