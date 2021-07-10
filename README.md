@@ -54,13 +54,50 @@ Flex Box를 학습하기위해 Raywendarich의 Yoga tutorial 예제 코드와 Yo
 
 * flex-direction
 
+  * flex 컨테이너의 하위 항목이 위치하는 방향을 나타내며 주축이라고도 한다. 주축에 수직이 되는 축을 교차축이라고 한다.
+  * row, column, row reverse, column reverse 로 구성 된다.
+  * row, column 값은 화면의 좌측 상단을 기준으로 각 속성에 따라 컨테이너의 아이템들이 위치하게 된다.
+  * reverse는 각 속성에서 row는 x축 반전, column은 y축 반전된다.
+<br>
+
 * justify-content
+
+  * 주축의 방향(fiex-direction)을 기준으로 flex 컨테이너의 하위 항목이 정렬되는 방법을 나타낸다.
+  * flex-start: 주축의 시작에 정렬된다.
+  * flex-end: 주축의 끝에 정렬된다.
+  * center: 주축의 중앙에 정렬된다.
+  * space-between: 교차축으로 균등하게 배치하고 남는 공간을 각 하위 항목 사이에 분배된다.
+  * space-around: space-between과 유사하나 차이점은 배치후 남는 공간을 처음 노드의 시작부분과 마지막 노드의 끝부분에 분배된다.
+  * space-evenly: 주축을 따라 하위 항목에 고르게 분배된다. (각 항목에 같은 padding을 준걸로 생각하면 될듯하다)
+
+<br>
 
 * align-items
 
+  * flex 컨테이너의 하위 항목을 교차축으로 정렬되는 방법을 나타낸다. 주축으로 정렬되는 justify-content와 반대로 교차축으로 정렬되는 방법을 나타낸다.
+  * stretch: 하위 항목을 교차축의 높이와 일치되도록 늘린다.
+  * flex-start: 교차축의 시작에 정렬된다.
+  * flex-end: 교차축의 끝에 정렬된다.
+  * center: 교차축의 중앙에 정렬된다.
+  * baseline: 하위 항목을 공통 기준선을 따라 정렬합니다. 개별 자식항목은 부모항목의 기준선이 되도록 설정할 수 있습니다. (하위 항목의 문자의 기준선)
+
+<br>
+
+* align-self
+  
+  * align-items와 동일한 옵션과 효과가 있지만 flex 컨테이너 내부 하위 항목에 영향을 주는 대신 이 속성을 단일 하위 항목에 적용하여 상위 항목 내에서 정렬을 변경할 수 있다. align-self는 항목을 정렬하여 상위 항목이 설정한 옵션을 재정의한다.
+
+<br>
+
 * flex-glow
 
+  * flex 컨테이터 내부 하위 항목에 증가 비율 가중치를 두어 공간을 분배한다.
+
+<br>
+
 * flex-shrink
+
+  * flex 컨테이터 내부 하위 항목에 감소 비율 가중치를 두어 공간을 분배한다.
 
 </div>
 </details>
@@ -68,9 +105,14 @@ Flex Box를 학습하기위해 Raywendarich의 Yoga tutorial 예제 코드와 Yo
 <details>
 <summary>사이트 모음</summary>
 <div>
+
   1. https://texture-kr.gitbook.io/wiki/ <br>
   2. https://www.raywenderlich.com/530-yoga-tutorial-using-a-cross-platform-layout-engine <br>
   3. https://yogalayout.com/playground <br>
   4. https://developer.mozilla.org/ko/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox
 </div>
 </details>
+
+<br>
+
+얇은 내용을 살펴 보았다 Yoga 라이브러리로 구성된 레이아웃을 Texture로 변경 해보자.
