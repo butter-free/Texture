@@ -136,10 +136,10 @@ class ViewController: UIViewController {
 		
 		// MARK: - titleView
 		let titleView = UIView(frame: .zero)
-		titleView.configureLayout { (layout) in
-			layout.isEnabled = true
-			layout.flexDirection = .row
-			layout.padding = Padding.default
+		titleView.configureLayout {
+			$0.isEnabled = true
+			$0.flexDirection = .row
+			$0.padding = Padding.default
 		}
 
 		let titleEpisodeLabel = UILabel(frame: .zero)
@@ -256,7 +256,6 @@ class ViewController: UIViewController {
 }
 
 // MARK: - Private methods
-
 private extension ViewController {
 	func showLabelFor(
 		text: String,
@@ -321,7 +320,6 @@ private extension ViewController {
 }
 
 // MARK: - UITableViewDataSource methods
-
 extension ViewController: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return shows.count
@@ -339,7 +337,6 @@ extension ViewController: UITableViewDataSource {
 }
 
 // MARK: - UITableViewDelegate methods
-
 extension ViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		return 100.0

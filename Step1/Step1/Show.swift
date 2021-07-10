@@ -38,7 +38,6 @@ struct Show {
 }
 
 // MARK: - Support for loading data from plist
-
 extension Show {
   static func loadShows() -> [Show] {
     return loadMixersFrom("Shows")
